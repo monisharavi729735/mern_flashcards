@@ -11,7 +11,7 @@ const flashcardRoutes = require('./routes/flashcards')
 app.use(express.json())
 
 // routes
-app.use('/api/flashcards', flashcardRoutes)
+app.use('/api/sets', flashcardRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
