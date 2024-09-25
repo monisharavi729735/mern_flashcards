@@ -1,69 +1,37 @@
 const express = require('express')
-const Set = require('../models/SetModel')
+const {
+    createNewSet,
+    createNewFlashcard,
+    getAllSets,
+    getOneSet,
+    deleteSet,
+    deleteFlashcard
+} = require('../controllers/setController')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    res.json({msg: 'get all sets'})
-})
+router.get('/', getAllSets)
 
-router.get('/:id', (req, res) => {
-    res.json({msg: 'get one set'})
-})
-
+router.get('/:id', getOneSet)
 
 // Create new set
-router.post('/', async (req, res) => {
-    const { name, flashcards } = req.body
-    try {
-        const set = await Set.create({ name, flashcards })
-        res.status(200).json(set)
-    } catch (error) {
-        console.error(error)
-        res.status(400).json({ error: error.message })
-    }
-});
-
+router.post('/', createNewSet)
 
 // Create new flashcard
-router.post('/:setId/flashcards', async (req, res) => {
-    const {keyword, explanation} = req.body
-    const {setId} = req.params
-    try {
-        const set = await Set.findById(setId)
-        if (!set) {
-            return res.status(404).json({ error: 'Set not found' });
-        }
-        set.flashcards.push({ keyword: keyword, explanation: explanation })
-        await set.save()
-        res.status(200).json(set)
-    } catch(error){
-        console.error(error)
-        res.status(400).json({ error: error.message })
-    }
-})
-
-
+router.post('/:setId/flashcards', createNewFlashcard)
 
 // Delete a set
-router.delete('/:id', (req, res) => {
-    res.json({msg: 'delete a set'})
-})
-
+router.delete('/:id', deleteSet)
 
 // Delete a flashcard
-router.delete(':setId/flashcards/:flashcardsId', (req, res) => {
-    res.json({msg: 'delete a flashcard'})
-})
+router.delete('/:setId/flashcards/:flashcardsId', deleteFlashcard)
 
-
-// update a set
+// Update a set
 router.patch('/:setId', (req, res) => {
     res.json({msg: 'update a set'})
 })
 
-
-// update a flashcard
+// Update a flashcard
 router.patch('/:setId/flashcards/:flashcardsId', (req, res) => {
     res.json({msg: 'update a flashcard'})
 })

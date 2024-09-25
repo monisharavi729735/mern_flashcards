@@ -11,7 +11,7 @@ const flashcardSchema = new Schema({
         type: String,
         required: true
     }
-})
+}, { timestamps: true })
 
 // Set Schema that contains multiple flashcards
 const setSchema = new Schema({
@@ -20,6 +20,6 @@ const setSchema = new Schema({
         required: true
     },
     flashcards: [flashcardSchema]
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model('Set', setSchema);
