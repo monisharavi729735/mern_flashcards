@@ -5,7 +5,8 @@ const {
     getAllSets,
     getOneSet,
     deleteSet,
-    deleteFlashcard
+    deleteFlashcard,
+    updateSet
 } = require('../controllers/setController')
 
 const router = express.Router()
@@ -27,9 +28,7 @@ router.delete('/:id', deleteSet)
 router.delete('/:setId/flashcards/:flashcardsId', deleteFlashcard)
 
 // Update a set
-router.patch('/:setId', (req, res) => {
-    res.json({msg: 'update a set'})
-})
+router.patch('/:id', updateSet)
 
 // Update a flashcard
 router.patch('/:setId/flashcards/:flashcardsId', (req, res) => {

@@ -112,6 +112,23 @@ const deleteFlashcard = async (req, res) => {
 }
 
 // update a set
+const updateSet = async(req, res) =>{
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({ error:'no such set' })
+    }
+
+    const set = await Set.findOneAndUpdate({_id: id}, {
+        ...req.body
+    })
+
+    if (!set){
+        return res.status(404).json({ error:'no such set' }) 
+    }
+
+    res.status(200).json(set)
+}
 
 // update a flashcard
 
@@ -121,5 +138,6 @@ module.exports = {
     getAllSets,
     getOneSet,
     deleteSet,
-    deleteFlashcard
+    deleteFlashcard,
+    updateSet
 }
