@@ -19,7 +19,11 @@ const setSchema = new Schema({
         type: String,
         required: true
     },
-    flashcards: [flashcardSchema]
+    flashcards: [flashcardSchema],
+    favorite: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Set', setSchema);
