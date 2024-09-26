@@ -131,6 +131,51 @@ const updateSet = async(req, res) =>{
 }
 
 // update a flashcard
+const updateFlashcard = async(req, res) => {
+    const { setId, flashcardsId} = req.params
+    const { keyword, explanation } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(setId)){
+        return res.status(404).json({ error:'no such set' })
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(flashcardsId)){
+        return res.status(404).json({ error:'no such flashcard' })
+    }
+
+    try {
+        const set = await Set.findById(setId)
+
+        if (!set){
+            return res.status(404).json({ error:'no such set' }) 
+        } 
+
+        // Find the flashcard by ID and remove it
+        const flashcardIndex = set.flashcards.findIndex(
+            (flashcard) => flashcard._id.toString() === flashcardsId
+        );
+
+        if (flashcardIndex === -1) {
+            return res.status(404).json({ error: 'Flashcard not found' });
+        }
+
+        if (keyword !== undefined){
+            set.flashcards[flashcardIndex].keyword = keyword;
+        }
+        
+        if (explanation !== undefined){
+            set.flashcards[flashcardIndex].explanation = explanation;
+        }
+        
+        await set.save()
+
+        res.status(200).json({msg: 'Flashcard updated sucessfully'})
+
+    } catch(error) {
+        console.error(error)
+        res.status(400).json({ error: error.message })
+    }
+}
 
 module.exports = {
     createNewSet,
@@ -139,5 +184,6 @@ module.exports = {
     getOneSet,
     deleteSet,
     deleteFlashcard,
-    updateSet
+    updateSet,
+    updateFlashcard
 }
