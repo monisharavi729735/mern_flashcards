@@ -1,8 +1,11 @@
 import React from 'react'
+import Sets from '../components/Sets'
 
 const HomePage = () => {
   return (
-    <h1>Home Page</h1>
+    <>
+    <Sets />
+    </>
   )
 }
 

@@ -35,7 +35,7 @@ const Navbar = () => {
                   >Home</NavLink
                 >
                 <NavLink
-                  to="/Favorites"
+                  to="/favorites"
                   className={linkClass}
                   >Favorites</NavLink
                 >
