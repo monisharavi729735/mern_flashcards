@@ -1,14 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Set = ({ collection }) => {
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
         <div className="h-48 bg-teal-900 rounded-t-lg flex items-end">
-        <a href="#" className="w-full">
+        <Link to={`/collection/${collection._id}`} className="w-full">
             <h5 className="mb-2 ml-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white hover:text-teal-200">
             {collection.title}
             </h5>
-        </a>
+        </Link>
         </div>
         <div className="p-5">
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{collection.description}</p>
