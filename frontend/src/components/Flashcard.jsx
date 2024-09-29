@@ -11,11 +11,6 @@ const Flashcard = ({ flashcard, onDelete, onEdit }) => {
         setIsHeld(false);
     };
 
-    // Stop flip behavior when using edit/delete buttons
-    const handleStopPropagation = (e) => {
-        e.stopPropagation();
-    };
-
     return (
         <div
             className="relative h-96 flex items-center justify-center bg-sky-50 border border-gray-200 rounded-lg shadow-lg p-6 text-center cursor-pointer transition-transform duration-150 ease-in-out transform hover:scale-105"
@@ -28,10 +23,6 @@ const Flashcard = ({ flashcard, onDelete, onEdit }) => {
             <div className="absolute top-2 right-2 flex space-x-2">
                 {/* Delete Button */}
                 <button
-                    onClick={(e) => {
-                        handleStopPropagation(e);
-                        onDelete(flashcard._id);
-                    }}
                     className="ml-2 rounded-md bg-teal-900 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-teal-600 focus:shadow-none active:bg-teal-600 hover:bg-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
                 >
@@ -47,10 +38,6 @@ const Flashcard = ({ flashcard, onDelete, onEdit }) => {
 
                 {/* Edit Button */}
                 <button
-                    onClick={(e) => {
-                        handleStopPropagation(e);
-                        onEdit(flashcard);
-                    }}
                     className="ml-2 rounded-md bg-teal-900 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-teal-600 focus:shadow-none active:bg-teal-600 hover:bg-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
                 >
