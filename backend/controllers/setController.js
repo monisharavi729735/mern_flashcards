@@ -26,9 +26,10 @@ const getOneSet = async (req, res) => {
 
 // Create new set
 const createNewSet = async (req, res) => {
-    const { name, flashcards } = req.body
+    const { title, description, flashcards, favorite } = req.body
+
     try {
-        const set = await Set.create({ name, flashcards })
+        const set = await Set.create({ title, description, flashcards, favorite });
         res.status(200).json(set)
     } catch (error) {
         console.error(error)

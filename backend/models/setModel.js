@@ -15,9 +15,13 @@ const flashcardSchema = new Schema({
 
 // Set Schema that contains multiple flashcards
 const setSchema = new Schema({
-    name: {
+    title: {
         type: String,
         required: true
+    },
+    description: {
+        type: String,
+        default: 'Explore this engaging flashcard sets designed to enhance your learning and reinforce key concepts across various subjects.'
     },
     flashcards: [flashcardSchema],
     favorite: {
