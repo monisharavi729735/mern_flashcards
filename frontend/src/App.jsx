@@ -1,7 +1,7 @@
 import HomePage from './pages/HomePage'
 import MainLayout from './layouts/MainLayout'
 import NotFoundPage from './pages/NotFoundPage'
-import Flashcards from './pages/Flashcards'
+import FlashcardsPage from './pages/FlashcardsPage'
 import FavoritesPage from './pages/FavoritesPage'
 
 import {
@@ -19,7 +19,7 @@ function App() {
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path='*' element={<NotFoundPage />} />
-        <Route path='/collection/:id' element={<Flashcards />} />
+        <Route path='/collection/:id' element={<FlashcardsPage />} />
         <Route path='/favorites' element={<FavoritesPage />}  />
       </Route>
     )
