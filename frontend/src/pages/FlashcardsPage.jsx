@@ -54,6 +54,16 @@ const FlashcardsPage = () => {
         }
     };
 
+    const handleEdit = (flashcardId, keyword, explanation) => {
+        const updatedFlashcards = flashcards.map((flashcard) => {
+            if (flashcard._id === flashcardId) {
+                return { ...flashcard, keyword, explanation };
+            }
+            return flashcard;
+        });
+        setFlashcards(updatedFlashcards);
+    };
+
     const handleDeleteFlashcard = (flashcardId) => {
         setFlashcards(flashcards.filter((flashcard) => flashcard._id !== flashcardId));
     };
@@ -69,7 +79,7 @@ const FlashcardsPage = () => {
                         {/* Flashcards - spanning only 3 columns */}
                         <div className="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
                         {flashcards && flashcards.map((flashcard, index) => (
-                            <Flashcard key={index} flashcard={flashcard} setId={id} onDelete={handleDeleteFlashcard} />
+                            <Flashcard key={index} flashcard={flashcard} setId={id} onEdit={handleEdit} onDelete={handleDeleteFlashcard} />
                         ))}
                         </div>
 

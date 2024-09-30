@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 
 const Flashcard = ({ flashcard, onDelete, onEdit, setId }) => {
     const [isHeld, setIsHeld] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [keyword, setKeyword] = useState(flashcard.keyword);
+    const [explanation, setExplanation] = useState(flashcard.explanation);
 
     const handleMouseDown = () => {
         setIsHeld(true);
@@ -10,6 +13,37 @@ const Flashcard = ({ flashcard, onDelete, onEdit, setId }) => {
     const handleMouseUp = () => {
         setIsHeld(false);
     };
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleEdit = async () => {
+        try {
+            const response = await fetch(`/api/sets/${setId}/flashcards/${flashcard._id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ keyword, explanation }),
+            });
+    
+            if (response.ok) {
+                onEdit(flashcard._id, keyword, explanation);
+                setIsEditing(false);
+            } else {
+                console.error('Error editing flashcard:', response.status);
+            }
+        } catch (error) {
+            console.error('Error editing flashcard:', error);
+        }
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setKeyword(flashcard.keyword);
+        setExplanation(flashcard.explanation);
+    };    
 
     const handleDelete = async () => {
         if (window.confirm('Are you sure you want to delete this flashcard?')) {
@@ -59,6 +93,7 @@ const Flashcard = ({ flashcard, onDelete, onEdit, setId }) => {
                 <button
                     className="ml-2 rounded-md bg-sky-900 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-sky-600 focus:shadow-none active:bg-sky-600 hover:bg-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
+                    onClick={handleEditClick}
                 >
                     <svg
                         className="h-4 w-4 text-white"
@@ -78,12 +113,46 @@ const Flashcard = ({ flashcard, onDelete, onEdit, setId }) => {
                 </button>
             </div>
 
-            <h3 className={`text-2xl font-semibold text-gray-900 ${isHeld ? 'hidden' : 'block'}`}>
-                {flashcard.keyword}
-            </h3>
-            <p className={`text-l text-gray-700 ${isHeld ? 'block' : 'hidden'}`}>
-                {flashcard.explanation}
-            </p>
+            {isEditing ? (
+                <div className="flex flex-col space-y-4">
+                    <input
+                        type="text"
+                        value={keyword}
+                        onChange={(e) => setKeyword(e.target.value)}
+                        className="rounded-md border border-gray-200 p-2.5 text-center text-sm text-gray-600 transition-all shadow-sm hover:shadow-lg focus:border-sky-600 focus:shadow-none active:border-sky-600 hover:border-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    />
+                    <textarea
+                        value={explanation}
+                        onChange={(e) => setExplanation(e.target.value)}
+                        className="rounded-md border border-gray-200 p-2.5 text-center text-sm text-gray-600 transition-all shadow-sm hover:shadow-lg focus:border-sky-600 focus:shadow-none active:border-sky-600 hover:border-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    />
+                    <div className="flex space-x-2">
+                        <button
+                            className="rounded-md bg-sky-900 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-sky-600 focus:shadow-none active:bg-sky-600 hover:bg-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            type="button"
+                            onClick={handleEdit}
+                        >
+                            Save
+                        </button>
+                        <button
+                            className="rounded-md bg-sky-900 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-sky-600 focus:shadow-none active:bg-sky-600 hover:bg-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            type="button"
+                            onClick={handleCancelEdit}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <div className="flex flex-col space-y-4">
+                    <h3 className={`text-2xl font-semibold text-gray-900 ${isHeld ? 'hidden' : 'block'}`}>
+                        {flashcard.keyword}
+                    </h3>
+                    <p className={`text-l text-gray-700 ${isHeld ? 'block' : 'hidden'}`}>
+                        {flashcard.explanation}
+                    </p>
+                </div>
+            )}
         </div>
     );
 };
