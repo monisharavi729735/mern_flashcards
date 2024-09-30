@@ -49,6 +49,18 @@ const Sets = () => {
     }
   };
 
+  const handleDeleteCollection = async (id) => {
+    const response = await fetch(`/api/sets/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      // Remove the deleted collection from the state
+      setCollections(prevCollections => prevCollections.filter(collection => collection._id !== id));
+    }
+  };
+
+
   return (
     <section className="px-4 py-10">
       <div className="container-xl lg:container m-auto">
@@ -60,7 +72,9 @@ const Sets = () => {
           <div className="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Existing Collection Card */}
             {collections && collections.map((collection, index) => (
-              <Set key={index} collection={collection} />
+              <Set key={index}
+                   collection={collection}
+                   handleDeleteCollection={handleDeleteCollection} />
             ))}
 
           </div>
