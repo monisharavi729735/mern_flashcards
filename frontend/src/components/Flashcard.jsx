@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Flashcard = ({ flashcard, onDelete, onEdit }) => {
+const Flashcard = ({ flashcard, onDelete, onEdit, setId }) => {
     const [isHeld, setIsHeld] = useState(false);
 
     const handleMouseDown = () => {
@@ -9,6 +9,24 @@ const Flashcard = ({ flashcard, onDelete, onEdit }) => {
 
     const handleMouseUp = () => {
         setIsHeld(false);
+    };
+
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete this flashcard?')) {
+        try {
+            const response = await fetch(`/api/sets/${setId}/flashcards/${flashcard._id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                onDelete(flashcard._id);
+            } else {
+                console.error('Error deleting flashcard:', response.status);
+            }
+        } catch (error) {
+            console.error('Error deleting flashcard:', error);
+        }
+        }
     };
 
     return (
@@ -25,6 +43,7 @@ const Flashcard = ({ flashcard, onDelete, onEdit }) => {
                 <button
                     className="ml-2 rounded-md bg-sky-900 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-sky-600 focus:shadow-none active:bg-sky-600 hover:bg-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
+                    onClick={handleDelete}
                 >
                     <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path

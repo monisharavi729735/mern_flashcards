@@ -4,7 +4,7 @@ import Flashcard from '../components/Flashcard';
 
 const FlashcardsPage = () => {
     const [flashcards, setFlashcards] = useState([]);
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState ('');
     const [keyword, setKeyword] = useState('');
     const [explanation, setExplanation] = useState('');
     const { id } = useParams();  // Get the collection ID from the URL
@@ -54,6 +54,10 @@ const FlashcardsPage = () => {
         }
     };
 
+    const handleDeleteFlashcard = (flashcardId) => {
+        setFlashcards(flashcards.filter((flashcard) => flashcard._id !== flashcardId));
+    };
+
     return (
         <>
             <section className="px-4 py-10">
@@ -64,9 +68,9 @@ const FlashcardsPage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                         {/* Flashcards - spanning only 3 columns */}
                         <div className="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {flashcards && flashcards.map((flashcard, index) => (
-                                <Flashcard key={index} flashcard={flashcard} />
-                            ))}
+                        {flashcards && flashcards.map((flashcard, index) => (
+                            <Flashcard key={index} flashcard={flashcard} setId={id} onDelete={handleDeleteFlashcard} />
+                        ))}
                         </div>
 
                         <div className="col-span-1 max-w-sm bg-white border border-gray-200 rounded-lg shadow p-5 h-96 overflow-auto">
