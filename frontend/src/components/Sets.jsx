@@ -71,6 +71,29 @@ const Sets = () => {
     }
   };
 
+  const handleFavorite = async (setId, isFavorite) => {
+    try {
+      const response = await fetch(`/api/sets/${setId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ favorite: isFavorite }),
+      });
+
+      if (response.ok) {
+        const updatedCollections = [...collections];
+        const index = updatedCollections.findIndex((collection) => collection._id === setId);
+        updatedCollections[index].favorite = isFavorite;
+        setCollections(updatedCollections);
+      } else {
+        console.error('Error updating favorite:', response.status);
+      }
+    } catch (error) {
+      console.error('Error updating favorite:', error);
+    }
+  };
+
 
   return (
     <section className="px-4 py-10">
@@ -86,7 +109,8 @@ const Sets = () => {
               <Set key={index}
                    collection={collection}
                    handleDeleteCollection={handleDeleteCollection}
-                   onEdit={handleEditCollection} />
+                   onEdit={handleEditCollection}
+                   handleFavorite={handleFavorite} />
             ))}
 
           </div>

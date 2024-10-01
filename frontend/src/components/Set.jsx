@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 
-const Set = ({ collection, handleDeleteCollection, onEdit }) => {
+const Set = ({ collection, handleDeleteCollection, onEdit, handleFavorite }) => {
 
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(collection.title)
   const [description, setDescription] = useState(collection.description)
+  const [isFavorite, setIsFavorite] = useState(collection.favorite)
 
   const handleEditClick = () => {
     setIsEditing(true)
@@ -38,15 +39,29 @@ const Set = ({ collection, handleDeleteCollection, onEdit }) => {
     setDescription(collection.description)
   };
 
+  const handleFavoriteClick = () => {
+    handleFavorite(collection._id, !isFavorite);
+    setIsFavorite(!isFavorite);
+  };
+
+
   return (
     <div className="relative max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-            <div className="absolute top-2 right-2 flex space-x-2 z-10">
+            <div onClick={handleFavoriteClick}
+            className="absolute top-2 right-2 flex space-x-2 z-10">
             {/* // favorites button */}
             <button className="ml-2 rounded-md bg-teal-700 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-teal-600 focus:shadow-none active:bg-teal-600 hover:bg-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
-                <svg className="h-4 w-4 text-white" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" />  
-                <path d="M12 20l-7 -7a4 4 0 0 1 6.5 -6a.9 .9 0 0 0 1 0a4 4 0 0 1 6.5 6l-7 7" />
-                </svg>
+            {isFavorite ? (
+                    <svg className="h-4 w-4 text-white" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <path d="M12 20l-7 -7a4 4 0 0 1 6.5 -6a.9 .9 0 0 0 1 0a4 4 0 0 1 6.5 6l-7 7" fill="#fff" />
+                    </svg>
+                ) : (
+                    <svg className="h-4 w-4 text-white" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <path d="M12 20l-7 -7a4 4 0 0 1 6.5 -6a.9 .9 0 0 0 1 0a4 4 0 0 1 6.5 6l-7 7" />
+                    </svg>
+                )}
             </button>
 
             {/* // delete button */}
