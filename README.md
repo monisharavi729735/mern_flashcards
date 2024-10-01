@@ -1,7 +1,31 @@
-Flashcard App
+SnapStudy - A Flashcard Application
 =============
 
 This project is a simple Flashcard web application built using the **MERN stack** (MongoDB, Express, React, and Node.js). It features a backend API for managing flashcard sets and individual flashcards, and a React frontend to display and interact with them. The app allows users to add, view, edit, and delete flashcards. It can be used for various subjects, such as philosophy, science, or any study material.
+
+Project Screenshots
+=============
+
+Below are some screenshots of the Flashcard web application:
+
+- 1. Home Page
+![Home Page](https://imgur.com/Ok1PT0T.png)
+
+- 2. Flashcard Set View
+![Flashcard Set View](https://imgur.com/mHMOFNm.png)
+
+- 3. Adding a Flashcard
+![Add Flashcard](https://imgur.com/NGK2wPE.png)
+
+- 4. Flashcard Created
+![Flashcard Created](https://imgur.com/p5h0m3p.png)
+
+- 5. Editing a Flashcard
+![Edit Flashcard](https://imgur.com/16UvUue.png)
+
+- 6. Deleting a Flashcard
+![Delete Flashcard](https://imgur.com/WK57mOi.png)
+
 
 Features
 --------
