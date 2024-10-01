@@ -1,7 +1,43 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 
-const Set = ({ collection, handleDeleteCollection }) => {
+const Set = ({ collection, handleDeleteCollection, onEdit }) => {
+
+  const [isEditing, setIsEditing] = useState(false)
+  const [title, setTitle] = useState(collection.title)
+  const [description, setDescription] = useState(collection.description)
+
+  const handleEditClick = () => {
+    setIsEditing(true)
+  };
+
+  const handleEdit = async () => {
+    try {
+      const response = await fetch(`/api/sets/${collection._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, description }),
+      });
+
+      if (response.ok) {
+        onEdit(collection._id, title, description);
+        setIsEditing(false)
+      } else {
+        console.error('Error editing collection:', response.status)
+      }
+    } catch (error) {
+      console.error('Error editing collection:', error)
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false)
+    setTitle(collection.title)
+    setDescription(collection.description)
+  };
+
   return (
     <div className="relative max-w-sm bg-white border border-gray-200 rounded-lg shadow">
             <div className="absolute top-2 right-2 flex space-x-2 z-10">
@@ -16,7 +52,7 @@ const Set = ({ collection, handleDeleteCollection }) => {
             {/* // delete button */}
             <button onClick={() => {
                         if (window.confirm("Are you sure you want to delete this collection?")) {
-                        handleDeleteCollection(collection._id);
+                        handleDeleteCollection(collection._id)
                     }}}
                 className="ml-2 rounded-md bg-teal-700 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-teal-600 focus:shadow-none active:bg-teal-600 hover:bg-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                 <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -25,7 +61,8 @@ const Set = ({ collection, handleDeleteCollection }) => {
             </button>
 
             {/* // edit button */}
-            <button className="ml-2 rounded-md bg-teal-700 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-teal-600 focus:shadow-none active:bg-teal-600 hover:bg-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+            <button onClick={handleEditClick}
+            className="ml-2 rounded-md bg-teal-700 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-teal-600 focus:shadow-none active:bg-teal-600 hover:bg-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                 <svg className="h-4 w-4 text-white" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" />
                 <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
@@ -33,6 +70,39 @@ const Set = ({ collection, handleDeleteCollection }) => {
                 </svg>
             </button>
         </div>
+
+        {isEditing ? (
+        <div className="flex flex-col space-y-4 justify-center items-center h-full">
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="rounded-md border border-gray-200 p-2.5 text-center text-l text-gray-600 transition-all shadow-sm hover:shadow-lg focus:border-teal-600 focus:shadow-none active:border-teal-600 hover:border-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="rounded-md border border-gray-200 p-2.5 text-center text-l text-gray-600 transition-all shadow-sm hover:shadow-lg focus:border-teal-600 focus:shadow-none active:border-teal-600 hover:border-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          />
+          <div className="flex space-x-2">
+            <button
+              className="rounded-md bg-teal-900 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-teal-600 focus:shadow-none active:bg-teal-600 hover:bg-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button"
+              onClick={handleEdit}
+            >
+              Save
+            </button>
+            <button
+              className="rounded-md bg-teal-900 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-teal-600 focus:shadow-none active:bg-teal-600 hover:bg-teal-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button"
+              onClick={handleCancelEdit}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
         <div className="h-48 bg-teal-900 rounded-t-lg flex items-end">
         <Link to={`/collection/${collection._id}`} className="w-full">
             <h5 className="mb-2 ml-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white hover:text-teal-200">
@@ -43,6 +113,8 @@ const Set = ({ collection, handleDeleteCollection }) => {
         <div className="p-5">
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{collection.description}</p>
         </div>
+        </>
+      )}
     </div>
   )
 }

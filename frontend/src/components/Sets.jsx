@@ -49,6 +49,17 @@ const Sets = () => {
     }
   };
 
+  const handleEditCollection = (id, title, description) => {
+    setCollections((prevCollections) =>
+      prevCollections.map((collection) => {
+        if (collection._id === id) {
+          return { ...collection, title, description };
+        }
+        return collection;
+      })
+    );
+  };
+
   const handleDeleteCollection = async (id) => {
     const response = await fetch(`/api/sets/${id}`, {
       method: 'DELETE',
@@ -74,7 +85,8 @@ const Sets = () => {
             {collections && collections.map((collection, index) => (
               <Set key={index}
                    collection={collection}
-                   handleDeleteCollection={handleDeleteCollection} />
+                   handleDeleteCollection={handleDeleteCollection}
+                   onEdit={handleEditCollection} />
             ))}
 
           </div>
