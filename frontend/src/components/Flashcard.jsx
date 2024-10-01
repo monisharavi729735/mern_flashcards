@@ -119,12 +119,12 @@ const Flashcard = ({ flashcard, onDelete, onEdit, setId }) => {
                         type="text"
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
-                        className="rounded-md border border-gray-200 p-2.5 text-center text-sm text-gray-600 transition-all shadow-sm hover:shadow-lg focus:border-sky-600 focus:shadow-none active:border-sky-600 hover:border-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        className="rounded-md border border-gray-200 p-2.5 text-center text-l text-gray-600 transition-all shadow-sm hover:shadow-lg focus:border-sky-600 focus:shadow-none active:border-sky-600 hover:border-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     />
                     <textarea
                         value={explanation}
                         onChange={(e) => setExplanation(e.target.value)}
-                        className="rounded-md border border-gray-200 p-2.5 text-center text-sm text-gray-600 transition-all shadow-sm hover:shadow-lg focus:border-sky-600 focus:shadow-none active:border-sky-600 hover:border-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        className="rounded-md border border-gray-200 p-2.5 text-center text-l text-gray-600 transition-all shadow-sm hover:shadow-lg focus:border-sky-600 focus:shadow-none active:border-sky-600 hover:border-sky-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     />
                     <div className="flex space-x-2">
                         <button
